@@ -1,0 +1,52 @@
+body {
+
+  background-color: #232B2B ;
+
+}
+
+h1{
+  font-family: Times;
+  font-weight: bold;
+  color: #E3AE57;
+  font-stretch: ultra-expanded;
+  align-content: center;
+}
+
+p{
+  color: black;
+  text-align: justify;
+}
+
+h2{
+  font-family: Times;
+  font-weight: bold;
+  color: #E3AE57;
+  font-stretch: ultra-expanded;
+  align-content: center;
+}
+
+h4{
+  font-family: Times;
+  font-weight: bold;
+  color: #E3AE57;
+  font-stretch: ultra-expanded;
+  align-content: center;
+}
+
+.navbar-default {
+  color: #E3AE57;
+  background-color: #232B2B;
+}
+
+
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+  color: white;
+  background-color: #232B2B;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    color: #E3AE57;
+    background-color: #232B2B;
+}
