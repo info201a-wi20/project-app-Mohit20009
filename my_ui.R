@@ -2,12 +2,9 @@ library(shiny)
 library(plotly)
 library("dplyr")
 
+source("my_server.R")
 #data 
 opioid_df <- read.csv("Multiple Cause of Death, 1999-2018.csv")
-
-#take out the state names from data frame, for use as users' choices
-all_states <- opioid_df$State
-unique_states <- unique(all_states)
 
 #take out the years from data frame, for use as users' choices
 all_year <- opioid_df$Year
@@ -15,7 +12,7 @@ unique_year <- unique(all_year)
 
 
 #line graph panel as first tabPanel
-trend_graph_panel <- tabPanel(h3("Death count trend graph"), fluid = TRUE,
+trend_graph_panel <- tabPanel("Death count trend graph", fluid = TRUE,
                       sidebarLayout(
                         sidebarPanel(
                           selectInput(
@@ -25,7 +22,7 @@ trend_graph_panel <- tabPanel(h3("Death count trend graph"), fluid = TRUE,
                           ),
                           textInput(
                             inputId = "state", #assign inputId
-                            label = "Find a state",
+                            label = "Find a state (e.g: Alabama)",
                             value = ""
                           )
                         ),
@@ -36,7 +33,7 @@ trend_graph_panel <- tabPanel(h3("Death count trend graph"), fluid = TRUE,
                      )
 
 #map panel as another tabPanel
-map_panel <- tabPanel(h3("Death count map"), fluid = TRUE,
+map_panel <- tabPanel("Death count map", fluid = TRUE,
               sidebarLayout(
                 sidebarPanel(
                   selectInput(
@@ -82,7 +79,12 @@ drug_death_count_panel <- tabPanel(
   p("The trending line graph shows each state death count caused by each drug category from 1999 to 2018.(In some states,
     the data is missing for some years) The map shows U.S death count caused by each drug category in specific year. 
     By viewing both graphs, we can make conclusions about death count by the three categories in different year and differnet 
-    states. For example, we can tell that in 2018, New York State had the highest death number caused by Heroin.")
+    states. For example, we can tell that in 2018, ", strong(max_illegal_2018_state), " state had the highest death number caused by illegal
+    drugs, of ", strong(max_illegal_2018_number), " people."),
+  p("In general, the trending of legal drug deaths keeps a constant increasing from 1999 to 2011, then following a little drop down or keeps growing 
+    with slower pace in most states. At the same time the deaths count of Heroin and illegal drugs drastically increased. This pattern is especially 
+    obvious in states with a serious drug deaths problem such as New York State and California, and also typical in Florida, a state with relatively 
+    low deaths caused by Heroin and illegal drugs before 2011, but exceeds the data of California on death caused by illegal drugs in 2017.")
 )
 
 #Ui with navbarPage

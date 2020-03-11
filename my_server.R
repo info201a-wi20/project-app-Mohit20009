@@ -33,6 +33,14 @@ q1_plot_df <- opioid_df_wide %>%
 #Leftjoin the dataset with state codes
 joined_data <- left_join(q1_plot_df, state_codes, by = "State")
 
+#Data nalysis question
+max_illegal_2018_rank <- joined_data %>%
+ filter(Year == "2018") %>%
+ arrange(-`illegal drugs`)
+
+max_illegal_2018_state <- max_illegal_2018_rank[1,]$State
+max_illegal_2018_number <- max_illegal_2018_rank[1,]$`illegal drugs`
+
 
 #A function that takes users' two inputs: "drug category" and "state" and returns a drug death count line graph
 my_line <- function(data, dc.var = "", st.var = "") {
