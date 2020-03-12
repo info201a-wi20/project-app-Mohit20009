@@ -123,7 +123,7 @@ opioid_death_panel <- tabPanel(
   main_content_opioid_death,
   br(),
   h4("Aim:"),
-  p("To find states that suffers the most from opioids crisis and nees urgent help"),
+  p("To find states that suffers the most from opioids crisis and needs urgent help"),
   h4("Approach:"),
   p("In this part we added the total number of death caused by heroin, methadone, and other kinds of opioids for all counties in each state from 1999-2018 together, so that we can get a total number of death caused by opioid overdose in each state, from 1999-2018. We also calculated the total population of each state to get a more clear picture for the death rate."),
   h4("Analysis:"),
@@ -169,11 +169,11 @@ drug_medicaid_panel <- tabPanel(
   h4("Aim:"),
   p("To find if Medicaid is a successful way to curb the crisis or is it an unnecessary expenditure of the tax payers money."),
   h4("Approach:"),
-  p("In order to analyze the opioid data we selected the varibles Year and Deaths. Consequntly, to sum up all the deaths of each year we used group by Year and summarize function. Futhermore, we also analysed the dataframe containing the Medicaid spending, we filtered the data by Region_Name to be United States and Item to be Medicaid/Personal Health Care (Millions of Dollars) and selected the necessary years. After performing data wranling, we combined the two dataframes to answer the question."),
+  p("In order to analyze the opioid data we selected the varibles Year and Deaths. Consequntly, to sum up all the deaths of each year we used group by Year and summarize function. Futhermore, we also analysed the dataframe containing the Medicaid spending, we filtered the data by Region_Name to be United States and Item to be Medicaid/Personal Health Care (Millions of Dollars) and selected the necessary years. After performing data wrangling, we combined the two dataframes to answer the question."),
   h4("Analysis:"),
-  p("We correlated overdose death with time, medicaid spending with time, and overdose death  with medicaid spending. Having the correlation value of overdose death compared to time as", strong(death_cor), "we consider it to be linearly growing. We also dervied a strong positive correlation between medicaid spending and time to be", strong(medicaid_cor),"."),
-  p("We intially reckoned that if there is a strong positive correlation between overdose deaths and medicaid spending, then medicaid spending is effecient in reducing the overdose deaths. The relationship should be negative or weak(between 0.5 to -0.5) to show that the number of deaths are reducing with more medicaid spending. To our suprise, we found that oue intial belief held. There was a strong positive relationship of", strong(death_medi_cor), "which confirms that the medicaid spending is not helping with the drug crisis."),
-  p("Whilst medicaid spending is benefical to a lot of Americans, however it has very little to no effect on drug addicts. Since, there is only a fraction of medicaid spending allocated to drug addicts,the US government should reconsider to invest this money in other programs and policies. One can notice how the action taken by the US government against pharmaceutical companies and changes made in drug policies help reduce the total overdose deaths between 2011-2012. The government can replicate similar drug policies and actions, while enforcing strong laws against illegal drugs.")
+  p("We correlated overdose death with time, medicaid spending with time, and overdose death  with medicaid spending. Having the correlation value of overdose death compared to time as", strong(death_cor), ", we consider it to be growing linearly. We also dervied a strong positive correlation between medicaid spending and time to be", strong(medicaid_cor),"."),
+  p("We intially reckoned that if there is a strong positive correlation between overdose deaths and medicaid spending, then medicaid spending is effecient in reducing the overdose deaths. The relationship should be negative or weak(between 0.5 to -0.5) to show that the number of deaths are reducing with more medicaid spending. To our surprise, we found that our intial belief held. There was a strong positive relationship of", strong(death_medi_cor), "which confirms that the medicaid spending is not helping with the drug crisis."),
+  p("Whilst medicaid spending is benefical to a lot of Americans, however it has a very little to no effect on drug addicts. Since, there is only a fraction of medicaid spending allocated to drug addicts,the US government should reconsider to invest this money in other programs and policies. One can notice how the action taken by the US government against pharmaceutical companies and changes made in drug policies help reduce the total overdose deaths between 2011-2012. The government can replicate similar drug policies and actions, while enforcing strong laws against illegal drugs.")
 )
 
 #Tab for about the team
