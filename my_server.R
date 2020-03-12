@@ -7,7 +7,6 @@ source("analysis.R")
 
 server <- function(input, output) {
   
-  # Receive the input from tab of question 2, re-filtering data for map and table
   slider<-reactive({input$year})
   opioid_df_map2_slider <- eventReactive(slider(), {opioid_df %>% 
       filter(Year >= slider()[1] & Year <= slider()[2]) %>% 
@@ -16,7 +15,6 @@ server <- function(input, output) {
       mutate(change_label =cut(Total_Death, breaks = c(0,100,500,1000,5000,10000,15000,20000), labels = c("0-100","100-500","500-1000","1000-5000","5000-10000","10000-15000","15000-20000")))
   })
   
-  # Draw the table for question 2
   output$table2 <- renderTable({
     df <- opioid_df_map2_slider()
     df <- df %>% 
@@ -24,7 +22,6 @@ server <- function(input, output) {
     return(df)
   })
   
-  # Draw the map for question 2
   output$plot2 <- renderPlot({
     df <- opioid_df_map2_slider()
     df$State <- tolower(df$State)
