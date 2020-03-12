@@ -8,6 +8,10 @@ source("my_server.R")
 all_year <- opioid_df$Year
 unique_year <- unique(all_year)
 
+#take out the state names from data frame, for use as users' choices
+all_state <- opioid_df$State
+unique_state <- unique(all_state)
+
 
 #line graph panel as first tabPanel
 trend_graph_panel <- tabPanel("Death count trend graph", fluid = TRUE,
@@ -18,10 +22,10 @@ trend_graph_panel <- tabPanel("Death count trend graph", fluid = TRUE,
                                     label = "Drug categories",
                                     choices = c("Heroin", "legal drugs", "illegal drugs")
                                   ),
-                                  textInput(
+                                  selectInput(
                                     inputId = "state", #assign inputId
-                                    label = "Find a state (e.g: Alabama)",
-                                    value = ""
+                                    label = "Choose a state",
+                                    choices = unique_state
                                   )
                                 ),
                                 mainPanel(
