@@ -1,13 +1,27 @@
 library("shiny")
 library("dplyr")
+library("plotly")
 library("ggplot2")
 library("ggvis")
 library("DT")
 source("analysis.R")
 
+# The plotly function for generating line graph for question 2
+opioid_line <- function(data, st.var = "") {
+  data <- data %>%
+    filter(State == st.var)
+  p <- plot_ly(x = data$Year, 
+               y = data$Total_Death,
+               type = 'scatter', mode = 'lines') %>%
+    layout(xaxis = list(title = "Year"),
+           yaxis = list(title = "Death for Each Year"),
+           title = paste0(st.var, " Death Caused by Opioid"))
+  return(p)
+}
+
 server <- function(input, output) {
   
-  # Receive the input from tab of question 2, re-filtering data for map and table
+  # Receive the input from tab of question 2, re-filtering data for map, table, and line graph
   slider<-reactive({input$year})
   opioid_df_map2_slider <- eventReactive(slider(), {opioid_df %>% 
       filter(Year >= slider()[1] & Year <= slider()[2]) %>% 
@@ -16,7 +30,20 @@ server <- function(input, output) {
       mutate(change_label =cut(Total_Death, breaks = c(0,100,500,1000,5000,10000,15000,20000), labels = c("0-100","100-500","500-1000","1000-5000","5000-10000","10000-15000","15000-20000")))
   })
   
-  # Draw the table for question 2
+  opioid_df_line2_slider_all <- eventReactive(slider(), {opioid_df %>%
+      group_by(Year) %>%
+      summarize("Total_Death" = sum(Deaths, na.rm = T)) %>%
+      mutate(State = "Overall")
+  })
+  
+  opioid_df_line2_slider <- eventReactive(slider(), {opioid_df %>% 
+      filter(Year >= slider()[1] & Year <= slider()[2]) %>%
+      group_by(State, Year) %>%
+      summarize("Total_Death" = sum(Deaths, na.rm = T)) %>%
+      rbind.data.frame(opioid_df_line2_slider_all())
+  })
+  
+  # Render the table for question 2
   output$table2 <- renderTable({
     df <- opioid_df_map2_slider()
     df <- df %>% 
@@ -24,8 +51,17 @@ server <- function(input, output) {
     return(df)
   })
   
-  # Draw the map for question 2
-  output$plot2 <- renderPlot({
+  # Render the line for question 2 using plotly
+  output$line2 <- renderPlotly({
+    if (input$state_line == "Overall") {
+      opioid_line(opioid_df_line2_slider_all(), input$state_line)
+    } else {
+      opioid_line(opioid_df_line2_slider(), input$state_line)
+    }
+  })
+  
+  # Render the map for question 2 using ggplot
+  output$map2 <- renderPlot({
     df <- opioid_df_map2_slider()
     df$State <- tolower(df$State)
     states_map <- map_data("state")
