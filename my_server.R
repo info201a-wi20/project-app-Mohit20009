@@ -67,7 +67,7 @@ server <- function(input, output) {
       theme(panel.border = element_blank()) +
       theme(panel.background = element_blank()) +
       coord_map(projection = "albers", lat0 = 39, lat1 = 45) +
-      labs(title = paste0("Total Death Caused by Opioid Overdose in Each State From ", slider2()[1], " to ", slider2()[2]))
+      labs(title = paste0("Total Death Caused by Opioid Overdose from ", slider2()[1], " to ", slider2()[2]))
     return(opioid_map)
   })
   
@@ -80,8 +80,8 @@ server <- function(input, output) {
                  y = data$Total_Death,
                  type = 'scatter', mode = 'lines') %>%
       layout(xaxis = list(title = "Year"),
-             yaxis = list(title = "Death for Each Year"),
-             title = paste0(st.var, " Death Caused by Opioid"))
+             yaxis = list(title = "Number of Deaths"),
+             title = paste0(st.var, " death count caused by Opioid Overdose"))
     return(p)
   }
   
@@ -93,7 +93,7 @@ server <- function(input, output) {
     ggplot(data = drug_medi_df_long, mapping = aes(x = Year, y = value, color = Type) ) +
       geom_point() +
       geom_line()+
-      labs(title = "Medicaid Spending by US Government and Total Drug Overdose death(1999-2014)", x = "Year",y = "Values")+
+      labs(title = paste0("Medicaid Spending by US Government and Total Drug Overdose death from ", slider()[1], " to " , slider()[2]), x = "Year",y = "Values")+
       scale_color_discrete(name = "Type", label = c("Medicaid Spending(in hundred million $US)", "Total Death Count"))+
       theme(legend.position = c(0.25, 0.85))+
       scale_x_continuous(limits = input$year3)
