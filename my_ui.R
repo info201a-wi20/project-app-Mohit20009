@@ -1,45 +1,42 @@
 library("shinyWidgets")
 
+#Creating Home Tab
 home_panel <- tabPanel(
   title = "Home",
-#  img(src= "opioid.jpg"),
-#  p( a(
-      # where to link
-#    href = "https://cumberlink.com/news/local/closer_look/state-of-emergency-a-look-at-opioid-solutions-prevention-in/article_27fc0279-1d65-5eb5-b0aa-014e163dbbde.html",
-      # what text to show
-#      "(img source)"
- #   )
- # ),
-  # A `titlePanel()` with the text "Income growth 1980-2014"
-  # A `sidebarLayout()` to create two columns.
-  # The sidebar layout will contain elements:
+  #Header
   h1("Study on the Opioid Crisis and Medicaid Spending in the United States"),
+  #Introduction
   p("Our project will be analyzing data on opioid crisis and Medicaid spending in the United States. Opioids are drugs primarily used in the medical field as a pain reliever, treat cancer patients, anesthesia, and more. There are different types of opioid drugs that are classified as legal or illegal in the United States. Doctors have to prescribe legal drugs like oxycodone, hydrocodone, morphine, and others. Illegal drugs include heroin, synthetic opioids - fentanyl, and more. All these drugs are highly potent, which means even a small amount of the drug can lead to death if not supervized by medical experts. In the 1990s pharmaceutical companies began falsely advertising legal opioid drugs as non-addictive and bribed doctors to often prescribe their patients these drugs. People got hooked to these drugs and often overdosed, which led to an increase in deaths. In 2011, the US government sued pharmaceutical companies and prosecuted doctors which led to leass availability of legal opioids. People who were addicted to these drugs switched to more dangerous illegal drugs like Heroin. The number of deaths from opioid drug overdose has been increasing and this has been termed as the opioid crisis. US government has been spending billions of dollar on Medicaid, law enforcement, and more to fight the crisis. Medicaid is a fedreal and state program that allocates financial help to people towards medical cost like medical products, treatment, and more."),
   p("This analysis would give an insight to the policymakers and the concerned people on how the crisis has worsened over time. It will also shed light on the current situation, and show the impact of Medicaid spending, while also examining if there is a need for other stronger drug policies to deal with the crisis.")
 )
 
+#widget slider input to select the range of years
 sidebar_content <- sidebarPanel(
-  # A `sliderInput()` for the 'percentile' value, labeled "Income Percentile".
-  # This slider should let the user pick a range between 0 and 100
   sliderInput(inputId = "year", label = "Year", min = 1999, max = 2014, value = c(1999, 2014), sep = "")
 )
 
-main_content <- mainPanel(
-  # A `plotOutput()` element showing the 'plot' output (defined in the server)
+#Layout for Question 3
+main_content3 <- mainPanel(
   tabsetPanel(
+    #Rendering the Plot for Question3
     tabPanel("Plot", plotOutput("plot3")), 
-    tabPanel("Table", tableOutput("table"), setBackgroundColor(color = "white"))
     
+    #Rendering the Table for Question3
+    tabPanel("Table", tableOutput("table3"), setBackgroundColor(color = 'white'))
   )
 )
+
+#Tab for Question3
 drug_medicaid_panel <- tabPanel(
   title = "Drug Overdose and Medicaid Spending",
-  titlePanel("Did Medicaid spending help reduce total deaths from drug overdose?"),
+  h2("Did Medicaid spending help reduce total deaths from drug overdose?"),
   
+  #Adding widgets and layout
   sidebarLayout(
-    main_content,
+    main_content3,
     sidebar_content
   ),
+  #Answering the question
   h4("Aim:"),
   p("To find if Medicaid is a successful way to curb the crisis or is it an unnecessary expenditure of the tax payers money."),
   h4("Approach:"),
@@ -50,15 +47,15 @@ drug_medicaid_panel <- tabPanel(
   p("Whilst medicaid spending is benefical to a lot of Americans, however it has very little to no effect on drug addicts. Since, there is only a fraction of medicaid spending allocated to drug addicts,the US government should reconsider to invest this money in other programs and policies. One can notice how the action taken by the US government against pharmaceutical companies and changes made in drug policies help reduce the total overdose deaths between 2011-2012. The government can replicate similar drug policies and actions, while enforcing strong laws against illegal drugs.")
 )
 
-
-
-
+#Tab for about the team
 about_panel <- tabPanel(
   title = "Team",
   h2("Our Team", align = "center"),
+  
+  #Layout  using the 12grid system in fluidRow
   fluidRow(
     column(3),
-    #Mohit
+    #About Mohit
     column(2,
            div(class="panel panel-default", 
                div(class="panel-body",  width = "1000px",
@@ -85,7 +82,7 @@ about_panel <- tabPanel(
                )
            )
     ),
-    #Jin
+    #About Jin
     column(2,
            div(class="panel panel-default", 
                div(class="panel-body",  width = "1000px",
@@ -111,7 +108,7 @@ about_panel <- tabPanel(
                )
            )
     ),
-    # Daniel
+    #About Daniel
     column(2,
            div(class="panel panel-default", 
                div(class="panel-body",  width = "1000px",
@@ -130,7 +127,7 @@ about_panel <- tabPanel(
                    div(
                      a(
                        # where to link
-                       href = "https://cumberlink.com/news/local/closer_look/state-of-emergency-a-look-at-opioid-solutions-prevention-in/article_27fc0279-1d65-5eb5-b0aa-014e163dbbde.html",
+                       href = "https://www.linkedin.com/in/kaixuan-jiang-1ba0341a4/",
                        # what text to show
                        "LinkedIn Profile"
                      )
@@ -142,10 +139,12 @@ about_panel <- tabPanel(
   fluidRow(style = "height:150px;")
 )
 
-
+#Tab for the Sources used in this project
 sources_panel <- tabPanel(
   title = "Sources",
   h2("Our Sources", align = "center"),
+  
+  #Layout  using the 12grid system in fluidRow
   fluidRow(
     column(2),
     column(8,
@@ -165,7 +164,7 @@ sources_panel <- tabPanel(
 )
 
 
-
+#Combining all the tabs into a navbarPage
 ui<- navbarPage(
   title = "",
   home_panel,
