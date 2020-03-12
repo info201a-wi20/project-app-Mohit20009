@@ -166,18 +166,43 @@ server <- function(input, output) {
     return(p)
   }
   
+  filter3 <- function(df){
+    if(input$type != "Both"){
+      if(input$type == "Total deaths"){
+        df <- drug_medi_df_long %>% 
+          filter(Type == "Total_death")
+      }else{
+        df <- drug_medi_df_long %>% 
+          filter(Type == "spending")
+      }
+    }
+    return(df)
+  }
   
+  labels33 <- function(){
+    if(input$type == "Both"){
+      labell <- c("Medicaid Spending(in hundred million $US)", "Total Death Count")
+    }else if(input$type == "Total deaths"){
+      labell <- c("Total Death Count")
+      }else{
+        labell <- c("Medicaid Spending(in hundred million $US)")
+      }
+    return(labell)
+  }
   
   
   #Rendering a graph for third question
   output$plot3 <- renderPlot({
-    ggplot(data = drug_medi_df_long, mapping = aes(x = Year, y = value, color = Type) ) +
+    df <- filter3(drug_medi_df_long)
+    labels3 <- labels33()
+    z <- ggplot(data = df, mapping = aes(x = Year, y = value, color = Type ) ) +
       geom_point() +
       geom_line()+
       labs(title = paste0("Medicaid Spending by US Government and Total Drug Overdose death from ", slider()[1], " to " , slider()[2]), x = "Year",y = "Values")+
-      scale_color_discrete(name = "Type", label = c("Medicaid Spending(in hundred million $US)", "Total Death Count"))+
+      scale_color_discrete(name = "Type", label = labels3)+
       theme(legend.position = c(0.25, 0.85))+
       scale_x_continuous(limits = input$year3)
+    return(z)
   })
   
   #Rescaling the data
@@ -187,10 +212,11 @@ server <- function(input, output) {
   
   #Records user activity on the slider input
   slider<-reactive({input$year3})
-  
+
   #Filters the dataframes according to user interaction with slider
   drug_medi_df_fil <- eventReactive(slider(), {drug_medi_df %>% 
       filter(Year >= slider()[1] & Year <= slider()[2])})
+    
   
   #Rendering the filtered dataframe
   output$table3 <- renderTable(drug_medi_df_fil(), digits = 0)

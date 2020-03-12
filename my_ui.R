@@ -8,6 +8,9 @@ source("my_server.R")
 all_year <- opioid_df$Year
 unique_year <- unique(all_year)
 
+#take out the state names from data frame, for use as users' choices
+all_state <- opioid_df$State
+unique_state <- unique(all_state)
 
 #line graph panel as first tabPanel
 trend_graph_panel <- tabPanel("Death count trend graph", fluid = TRUE,
@@ -18,10 +21,10 @@ trend_graph_panel <- tabPanel("Death count trend graph", fluid = TRUE,
                                     label = "Drug categories",
                                     choices = c("Heroin", "legal drugs", "illegal drugs")
                                   ),
-                                  textInput(
+                                  selectInput(
                                     inputId = "state", #assign inputId
-                                    label = "Find a state (e.g: Alabama)",
-                                    value = ""
+                                    label = "Choose a state",
+                                    choices = unique_state
                                   )
                                 ),
                                 mainPanel(
@@ -53,7 +56,7 @@ map_panel <- tabPanel("Death count map", fluid = TRUE,
 
 #The main tabPanel including the two sub-tabPanels and all the texts
 drug_death_count_panel <- tabPanel(
-  title = "Drug death count and drug categories",
+  title = "Drug death count & drug categories",
   titlePanel("What is the drug death count by prescription and illegal drugs from 1999-2018?"),
   tabsetPanel(
     trend_graph_panel,
@@ -102,20 +105,20 @@ home_panel <- tabPanel(
 main_content_opioid_death <- mainPanel(
   # Draw the map, line graph, and table in opioid_death_panel tab
   tabsetPanel(
+    tabPanel("Line Graph", sidebarLayout(mainPanel(plotlyOutput("line2")),sidebarPanel(selectInput(inputId = "state_line", label = "State", choices = c("Overall",state.name))))),
     tabPanel("Map", fluidRow(
       column(8,
              (plotOutput("map2"))),
       column(4,
              sliderInput(inputId = "year2", label = "Year", min = 1999, max = 2018, value = c(1999,2018), sep = ""))) 
-    ) ,
-    tabPanel("Line Graph", sidebarLayout(mainPanel(plotlyOutput("line2")),sidebarPanel(selectInput(inputId = "state_line", label = "State", choices = c("Overall",state.name)))))
+    ) 
     #tabPanel("Table", sidebarLayout(slider_opioid, tableOutput("table2")))
   ), width =12
 )
 
 # Create the tab for question
 opioid_death_panel <- tabPanel(
-  title = "States and Deaths by Opioid Overdose",
+  title = "States & Deaths by Opioid Overdose",
   h2("The number of people dead by Overdosing Opioids in each state"),
   main_content_opioid_death,
   br(),
@@ -132,13 +135,18 @@ opioid_death_panel <- tabPanel(
 
 #widget slider input to select the range of years
 sidebar_content <- sidebarPanel(
-  sliderInput(inputId = "year3", label = "Year", min = 1999, max = 2014, value = c(1999, 2014), sep = "")
+  sliderInput(inputId = "year3", label = "Year", min = 1999, max = 2014, value = c(1999, 2014), sep = ""),
+  selectInput(
+    inputId = "type", #assign inputId
+    label = "Type",
+    choices = c("Both", "Total deaths", "Medicaid Spending")
+  )
 )
-
 
 #Layout for Question 3
 main_content3 <- mainPanel(
   tabsetPanel(
+    
     #Rendering the Plot for Question3
     tabPanel("Plot", plotOutput("plot3")), 
     
@@ -149,11 +157,11 @@ main_content3 <- mainPanel(
 
 #Tab for Question3
 drug_medicaid_panel <- tabPanel(
-  title = "Drug Overdose and Medicaid Spending",
+  title = "Drug Overdose & Medicaid Spending",
   h2("Did Medicaid spending help reduce total deaths from drug overdose?"),
   
   #Adding widgets and layout
-  sidebarLayout(
+ sidebarLayout(
     main_content3,
     sidebar_content
   ),
