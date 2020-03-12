@@ -10,10 +10,46 @@ home_panel <- tabPanel(
   p("This analysis would give an insight to the policymakers and the concerned people on how the crisis has worsened over time. It will also shed light on the current situation, and show the impact of Medicaid spending, while also examining if there is a need for other stronger drug policies to deal with the crisis.")
 )
 
+
+# Creating the slider for the time range from 1999 to 2018
+
+
+main_content_opioid_death <- mainPanel(
+  # Draw the map, line graph, and table in opioid_death_panel tab
+  tabsetPanel(
+    tabPanel("Map", fluidRow(
+      column(8,
+             (plotOutput("map2"))),
+      column(4,
+             sliderInput(inputId = "year2", label = "Year", min = 1999, max = 2018, value = c(1999,2018), sep = ""))) 
+    ) ,
+    tabPanel("Line Graph", sidebarLayout(mainPanel(plotlyOutput("line2")),sidebarPanel(selectInput(inputId = "state_line", label = "State", choices = c("Overall",state.name)))))
+    #tabPanel("Table", sidebarLayout(slider_opioid, tableOutput("table2")))
+  ), width =12
+)
+
+# Create the tab for question
+opioid_death_panel <- tabPanel(
+  title = "States and Deaths by Opioid Overdose",
+  h2("The number of people dead by Overdosing Opioids in each state"),
+  main_content_opioid_death,
+  br(),
+  h4("Aim:"),
+  p("To find states that suffers the most from opioids crisis and nees urgent help"),
+  h4("Approach:"),
+  p("In this part we added the total number of death caused by heroin, methadone, and other kinds of opioids for all counties in each state from 1999-2018 together, so that we can get a total number of death caused by opioid overdose in each state, from 1999-2018. We also calculated the total population of each state to get a more clear picture for the death rate."),
+  h4("Analysis:"),
+  p("After analysis, we created a map, a line graph, and a table to show the time counts for each state along the time."),
+  p("We found that", strong("California, New York, Florida, Ohio, Texas"), "and", strong("Washington"), "shows the most death caused by opioid overdose over time. These result shows that these top 6 states are the states that suffers from the opioid problem the most, but we can see that they also have the largest population as well. Therefore, we cannot conclude that these states are the worst performing states in the opioid crisis. However, these states still need to reinforce the polices as they have large population and people can easily become drug addicts.")
+)
+
+
+
 #widget slider input to select the range of years
 sidebar_content <- sidebarPanel(
-  sliderInput(inputId = "year", label = "Year", min = 1999, max = 2014, value = c(1999, 2014), sep = "")
+  sliderInput(inputId = "year3", label = "Year", min = 1999, max = 2014, value = c(1999, 2014), sep = "")
 )
+
 
 #Layout for Question 3
 main_content3 <- mainPanel(
@@ -22,7 +58,7 @@ main_content3 <- mainPanel(
     tabPanel("Plot", plotOutput("plot3")), 
     
     #Rendering the Table for Question3
-    tabPanel("Table", tableOutput("table3"), setBackgroundColor(color = 'white'))
+    tabPanel("Table", tableOutput("table3"))
   )
 )
 
@@ -168,9 +204,14 @@ sources_panel <- tabPanel(
 ui<- navbarPage(
   title = "",
   home_panel,
+  opioid_death_panel,
   drug_medicaid_panel,
   about_panel,
   sources_panel,
+  
   theme = "style.css"
 )
+
+
+
 
